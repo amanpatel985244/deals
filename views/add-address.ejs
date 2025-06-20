@@ -1,0 +1,16 @@
+<%- include("partials/header") %>
+
+<div class="max-w-xl mx-auto p-6 bg-white shadow rounded mt-10">
+  <h2 class="text-xl font-semibold mb-4">Add New Address</h2>
+  <form action="/address/add" method="POST" class="space-y-4">
+    <input type="text" name="line1" placeholder="Address Line" required class="w-full border p-2 rounded" />
+    <input type="text" name="city" placeholder="City" required class="w-full border p-2 rounded" />
+    <input type="text" name="state" placeholder="State" required class="w-full border p-2 rounded" />
+    <input type="text" name="zip" placeholder="ZIP Code" required class="w-full border p-2 rounded" />
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+      Save Address
+    </button>
+  </form>
+</div>
+
+<%- include("partials/footer") %>

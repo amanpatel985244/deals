@@ -1,0 +1,113 @@
+<%- include('./partials/header') %>
+
+
+
+
+<div class="w-full min-h-screen flex items-start px-20 py-20 gap-10">
+
+    <!-- Cart Items -->
+    <div class="w-[70%]">
+      <% if (cartProducts.length === 0) { %>
+  <div class="w-full mt-20 flex flex-col items-center justify-center text-center text-gray-500">
+    <i class="ri-shopping-cart-line text-5xl mb-4"></i>
+    <h2 class="text-xl font-semibold">Your cart is empty</h2>
+    <p class="mt-2 text-sm">Looks like you haven’t added anything to your cart yet.</p>
+    <a href="/shop" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Continue Shopping</a>
+  </div>
+<% } %>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <% cartProducts.forEach(function(product) { %>
+                <div class="rounded-md overflow-hidden shadow-md border bg-white">
+                    <!-- Product Image Section -->
+                    <div class="h-48 flex items-center justify-center bg-[<%= product.bgcolor %>]">
+                        <img class="h-32 object-contain" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" alt="">
+                    </div>
+
+                    <!-- Info Section -->
+                    <div class="px-4 py-3 bg-[<%= product.panelcolor %>] text-[<%= product.textcolor %>]">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-lg font-medium truncate"><%= product.name %></h3>
+                            <h4 class="text-sm font-bold">₹ <%= product.price %></h4>
+                        </div>
+
+                        <!-- Quantity Controls -->
+                        <div class="flex items-center justify-between mt-2">
+                            <div class="flex items-center gap-2">
+
+                                <a href="/cart/decrease/<%= product._id %>" class="w-7 h-7 bg-white rounded-full flex items-center justify-center text-black hover:bg-gray-200">
+                                    <i class="ri-subtract-line text-lg"></i>
+                                </a>
+                                <div class="px-3 py-1 bg-white rounded text-black text-sm">
+                                    <%= product.quantity || 1 %>
+                                </div>
+                                <a href="/cart/increase/<%= product._id %>" class="w-7 h-7 bg-white rounded-full flex items-center justify-center text-black hover:bg-gray-200">
+                                    <i class="ri-add-line text-lg"></i>
+                                </a>
+                            </div>
+                            <a href="/cart/remove/<%= product._id %>" class="text-red-500 hover:underline text-sm">Remove</a>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+
+    <!-- Price Summary -->
+    <div class="w-[30%] rounded-md shadow p-6 bg-white">
+        <h3 class="text-xl font-semibold mb-4">Price Breakdown</h3>
+        <div class="space-y-3 text-sm">
+            <div class="flex justify-between">
+                <span>Total MRP</span>
+                <span>₹ <%= totalMRP %></span>
+            </div>
+            <div class="flex justify-between">
+                <span>Discount on MRP</span>
+                <span>₹ <%= discount %></span>
+            </div>
+            <div class="flex justify-between">
+                <span>Platform Fee</span>
+                <span>₹ <%= platformFee %></span>
+            </div>
+            <div class="flex justify-between">
+                <span>Shipping Fee</span>
+                <span><%= shippingFee === 0 ? 'FREE' : '₹ ' + shippingFee %></span>
+            </div>
+        </div>
+
+        <div class="w-full h-[1px] bg-gray-300 my-5"></div>
+
+        <div class="flex justify-between text-lg font-bold text-green-600">
+            <span>Total Amount</span>
+            <span>₹ <%= totalMRP - discount + platformFee + shippingFee %></span>
+        </div>
+
+ <a href="/checkout" class="block w-full bg-blue-600 text-white text-center py-2 rounded-md hover:bg-blue-700 transition">
+  Proceed to Checkout
+</a>
+
+
+
+        <% if (cartProducts.length > 0) { %>
+  <div class="w-full mt-5 flex flex-col items-center justify-center text-center text-gray-500">
+    <i class="ri-shopping-cart-line text-5xl mb-4"></i>
+    <h2 class="text-xl font-semibold"><%
+  let totalItems = 0;
+  cartProducts.forEach(p => {
+    totalItems += p.quantity;
+  });
+%>
+<h2 class="text-xl font-semibold text-green-600"><%= totalItems %> <%= totalItems === 1 ? 'item' : 'items' %> added in your cart</h2>
+</h2>
+    <p class="mt-2 text-sm"></p>
+    <a href="/shop" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Continue Shopping</a>
+  </div>
+<% } %> 
+    </div>
+   
+
+</div>
+
+
+
+<%- include('./partials/footer') %>

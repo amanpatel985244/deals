@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="font-['helvetica_now_display'] bg-white text-black">
+
+  <!-- Navbar -->
+  <nav class="w-full fixed top-0 left-0 z-50 bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
+      <!-- Brand Logo -->
+      <a href="/" class="text-2xl font-bold text-blue-600">Scatch</a>
+
+      <% var loggedin = typeof loggedin !== "undefined" ? loggedin : true %>
+      <% if (loggedin) { %>
+      <!-- Nav Links -->
+      <div class="hidden md:flex gap-6 items-center">
+        <a href="/shop" class="text-blue-700 hover:text-blue-900 font-medium">Shop</a>
+        <a href="/cart" class="text-blue-700 hover:text-blue-900 font-medium flex items-center gap-1">
+          <i class="ri-shopping-cart-line text-lg"></i> Cart
+        </a>
+          <a href="/order/my" class="text-blue-700 hover:text-blue-900 font-medium flex items-center gap-1">
+          <i class="ri-shopping-cart-line text-lg"></i> My order
+        </a>
+        
+        <!-- <a href="#" class="text-blue-700 hover:text-blue-900 font-medium">My Account</a> -->
+        <form action="/logout" method="POST">
+          <button type="submit" class="text-red-500 hover:text-red-700 font-medium">
+            Logout
+          </button>
+        </form>
+      </div>
+      <% } %>
+
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden">
+        <button id="mobile-menu-button" class="text-blue-700 focus:outline-none text-2xl">
+          <i class="ri-menu-line"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown -->
+    <% if (loggedin) { %>
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t px-6 pb-4">
+      <a href="/shop" class="block py-2 text-blue-700 hover:text-blue-900">Shop</a>
+      <a href="/cart" class="block py-2 text-blue-700 hover:text-blue-900">Cart</a>
+      <!-- <a href="#" class="block py-2 text-blue-700 hover:text-blue-900">My Account</a> -->
+      <form action="/logout" method="POST" class="pt-2">
+        <button type="submit" class="text-red-500 hover:text-red-700">Logout</button>
+      </form>
+    </div>
+    <% } %>
+  </nav>
+
+  <script>
+    // Toggle mobile menu
+    document.getElementById("mobile-menu-button")?.addEventListener("click", function () {
+      const menu = document.getElementById("mobile-menu");
+      menu.classList.toggle("hidden");
+    });
+  </script>

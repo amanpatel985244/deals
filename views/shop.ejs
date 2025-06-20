@@ -1,0 +1,72 @@
+<%- include('./partials/header') %>
+
+ <% if(success.length>0){ %>
+        <div class="absolute top-5 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-md bg-blue-500">
+            <span class="inline-block mt-1 mb-1 text-white">
+                <%= success %>
+            </span>
+        </div>
+        <% } %>
+
+<div class="w-full min-h-screen flex items-start px-20 py-20">
+    <!-- Sidebar -->
+    <div class="w-[25%] flex flex-col items-start">
+        <div class="flex items-center gap-2">
+            <h3 class="font-semibold text-lg">Sort by</h3>
+            <form action="/shop">
+                <select class="border px-2 py-1 rounded text-sm" name="sortby">
+                    <option value="popular">Popular</option>
+                    <option value="newest">Newest</option>
+                </select>
+            </form>
+        </div>
+
+        <div class="flex flex-col mt-20 space-y-2">
+            <a class="text-sm text-gray-700 hover:underline" href="">New Collection</a>
+            <a class="text-sm text-gray-700 hover:underline" href="">All Products</a>
+            <a class="text-sm text-gray-700 hover:underline" href="">Discounted Products</a>
+        </div>
+
+        <div class="mt-32 space-y-2">
+            <a class="text-sm font-semibold" href="">Filter by :</a>
+            <a class="text-sm text-gray-700 hover:underline" href="">Availability</a>
+            <a class="text-sm text-gray-700 hover:underline" href="">Discount</a>
+        </div>
+
+        <!-- 🔴 LOGOUT BUTTON -->
+        <!-- <div class="mt-10">
+            <form action="/logout" method="POST">
+                <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition">
+                    Logout
+                </button>
+            </form>
+        </div> -->
+    </div>
+
+    <!-- Product Grid -->
+    <div class="w-[75%]">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <% products.forEach(function(product){ %>
+                <div class="border rounded-md overflow-hidden shadow-sm hover:shadow-md transition bg-white">
+                    <!-- Product Image -->
+                    <div class="bg-[<%= product.bgcolor %>] flex items-center justify-center h-48">
+                        <img class="h-[10rem] object-contain" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" alt="">
+                    </div>
+
+                    <!-- Info Section -->
+                    <div class="px-3 py-3 bg-[<%= product.panelcolor %>] text-[<%= product.textcolor %>]">
+                        <h3 class="text-base font-medium truncate mb-1"><%= product.name %></h3>
+                        <div class="flex justify-between items-center">
+                            <h4 class="text-sm font-semibold">₹ <%= product.price %></h4>
+                            <a class="w-6 h-6 flex items-center justify-center rounded-full bg-white text-black hover:bg-gray-200" href="/addtocart/<%=product._id %>">
+                                <i class="ri-add-line text-lg"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
+
+<%- include('./partials/footer') %>

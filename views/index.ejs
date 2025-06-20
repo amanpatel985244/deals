@@ -1,0 +1,145 @@
+<%- include('./partials/header') %>
+
+<% if(error.length>0){ %>
+  <div class="absolute top-5 left-1/2 transform -translate-x-1/2 bg-red-500 px-4 py-2 rounded-md text-white shadow">
+    <%= error %>
+  </div>
+<% } %>
+
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 px-4">
+  <div class="w-full max-w-lg bg-white/70 backdrop-blur-md rounded-2xl shadow-lg p-8 transition-all duration-700" id="mainCard">
+
+    <!-- Step 1: Choose Login or Register -->
+    <div id="step1" class="text-center">
+      <h2 class="text-3xl font-bold text-indigo-700 mb-6">Welcome to Scatch</h2>
+      <p class="text-gray-700 mb-6">Would you like to Login or Register?</p>
+      <div class="flex justify-center gap-6">
+        <button onclick="showStep2('login')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2 rounded transition">Login</button>
+        <button onclick="showStep2('register')" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-2 rounded transition">Register</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Choose User or Owner -->
+    <div id="step2" class="hidden text-center">
+      <h2 id="step2Title" class="text-2xl font-semibold text-gray-800 mb-4">Are you a User or an Owner?</h2>
+      <div class="flex justify-center gap-6">
+        <button id="userBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded" onclick="showStep3('user')">User</button>
+        <button id="ownerBtn" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded" onclick="showStep3('owner')">Owner</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Final Login/Register Form -->
+    <div id="step3" class="hidden">
+      <!-- Title will be injected -->
+      <h2 id="step3Title" class="text-2xl font-semibold text-center text-indigo-700 mb-4"></h2>
+
+      <form id="finalForm" action="#" method="post" class="space-y-4">
+        <input id="nameField" class="bg-gray-100 w-full px-4 py-2 border rounded hidden" type="text" placeholder="Full Name" name="fullname" />
+        <input class="bg-gray-100 w-full px-4 py-2 border rounded" type="email" placeholder="Email" name="email" required />
+        <input class="bg-gray-100 w-full px-4 py-2 border rounded" type="password" placeholder="Password" name="password" required />
+        <input id="submitBtn" type="submit" class="w-full py-2 bg-indigo-600 text-white font-semibold rounded cursor-pointer hover:bg-indigo-700 transition" value="Submit" />
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  let mode = ''; // login or register
+  let role = ''; // user or owner
+
+  function showStep2(selectedMode) {
+    mode = selectedMode;
+    document.getElementById("step1").classList.add("hidden");
+    document.getElementById("step2").classList.remove("hidden");
+    document.getElementById("step2Title").innerText = `Are you ${mode === 'login' ? 'logging in' : 'registering'} as a User or an Owner?`;
+  }
+
+  function showStep3(selectedRole) {
+    role = selectedRole;
+    document.getElementById("step2").classList.add("hidden");
+    document.getElementById("step3").classList.remove("hidden");
+
+    const form = document.getElementById("finalForm");
+    const title = document.getElementById("step3Title");
+    const nameField = document.getElementById("nameField");
+
+    // Update form action
+    if (mode === 'login' && role === 'user') {
+      form.action = "/users/login";
+      title.innerText = "User Login";
+      nameField.classList.add("hidden");
+    } else if (mode === 'login' && role === 'owner') {
+      form.action = "/owner/create";
+      
+      title.innerText = "Owner Login";
+      nameField.classList.add("hidden");
+    } else if (mode === 'register' && role === 'user') {
+      form.action = "/users/register";
+      title.innerText = "User Registration";
+      nameField.classList.remove("hidden");
+    } else if (mode === 'register' && role === 'owner') {
+      form.action = "/owner/register";
+      title.innerText = "Owner Registration";
+      nameField.classList.remove("hidden");
+    }
+  }
+</script>
+
+<%- include('./partials/footer') %>
+
+
+<%- include('./partials/header') %>
+
+<% if (error.length > 0) { %>
+  <div class="absolute top-6 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-4 py-2 rounded shadow z-50">
+    <%= error %>
+  </div>
+<% } %>
+
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 px-4">
+  <div class="w-full max-w-md bg-white/70 backdrop-blur-md rounded-2xl shadow-lg p-8 transition-all duration-700" id="formCard">
+    <!-- Toggle Title -->
+    <h2 class="text-center text-3xl font-bold mb-6 text-indigo-700" id="formTitle">Login</h2>
+
+    <!-- Login Form -->
+    <form id="loginForm" action="/users/login" method="post" class="space-y-4">
+      <input class="w-full px-4 py-2 bg-gray-100 rounded border focus:outline-none focus:ring-2 focus:ring-indigo-400" type="email" name="email" placeholder="Email" required />
+      <input class="w-full px-4 py-2 bg-gray-100 rounded border focus:outline-none focus:ring-2 focus:ring-indigo-400" type="password" name="password" placeholder="Password" required />
+      <input class="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded cursor-pointer transition" type="submit" value="Login" />
+      <p class="text-sm text-center text-gray-600">Don't have an account? 
+        <button type="button" onclick="toggleForm()" class="text-indigo-500 hover:underline font-semibold ml-1">Register</button>
+      </p>
+    </form>
+
+    <!-- Register Form -->
+    <form id="registerForm" action="/users/register" method="post" class="space-y-4 hidden">
+      <input class="w-full px-4 py-2 bg-gray-100 rounded border focus:outline-none focus:ring-2 focus:ring-purple-400" type="text" name="fullname" placeholder="Full Name" required />
+      <input class="w-full px-4 py-2 bg-gray-100 rounded border focus:outline-none focus:ring-2 focus:ring-purple-400" type="email" name="email" placeholder="Email" required />
+      <input class="w-full px-4 py-2 bg-gray-100 rounded border focus:outline-none focus:ring-2 focus:ring-purple-400" type="password" name="password" placeholder="Password" required />
+      <input class="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded cursor-pointer transition" type="submit" value="Create Account" />
+      <p class="text-sm text-center text-gray-600">Already have an account? 
+        <button type="button" onclick="toggleForm()" class="text-purple-500 hover:underline font-semibold ml-1">Login</button>
+      </p>
+    </form>
+  </div>
+</div>
+
+<script>
+  function toggleForm() {
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
+    const formTitle = document.getElementById("formTitle");
+
+    if (loginForm.classList.contains("hidden")) {
+      loginForm.classList.remove("hidden");
+      registerForm.classList.add("hidden");
+      formTitle.innerText = "Login";
+    } else {
+      loginForm.classList.add("hidden");
+      registerForm.classList.remove("hidden");
+      formTitle.innerText = "Register";
+    }
+  }
+</script>
+
+<%- include('./partials/footer') %>

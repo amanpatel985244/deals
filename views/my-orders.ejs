@@ -1,0 +1,69 @@
+<%- include("partials/header") %>
+
+<div class="max-w-6xl mx-auto p-6">
+  <h2 class="text-2xl text-green-600 m-10 font-bold mb-4">My Orders</h2>
+
+  <% if (orders.length === 0) { %>
+    <p class="text-gray-600">You have no orders yet.</p>
+  <% } else { %>
+    <% orders.forEach(order => { %>
+      <div class="bg-white rounded-lg shadow p-6 mb-6 flex justify-between items-start">
+        
+        <!-- Product List -->
+        <div class="w-2/3 pr-4">
+          <h3 class="text-lg font-semibold mb-4">Ordered Products</h3>
+
+          <% order.products.forEach(p => {
+               const prod = p.product;
+               const owner = p.owner;
+          %>
+            <div class="mb-4 flex rounded shadow overflow-hidden">
+              
+              <!-- Left: Image with background color -->
+              <div class="w-1/3 flex items-center justify-center p-4" style="background-color: <%= prod.bgcolor || '#f3f3f3' %>">
+                <% if (prod.image) { %>
+                  <img src="data:image/png;base64,<%= prod.image.toString('base64') %>" class="w-24 h-24 object-cover rounded shadow" />
+                <% } else { %>
+                  <img src="/images/placeholder.png" class="w-24 h-24 object-cover rounded shadow" />
+                <% } %>
+              </div>
+
+              <!-- Right: Text block with panel color -->
+              <div class="w-2/3 p-4 text-white" style="background-color: <%= prod.panelcolor || '#333' %>;">
+                <p class="font-bold text-lg"><%= prod.name %></p>
+                <p>Price: ₹<%= prod.price %></p>
+                <p>Discount: ₹<%= prod.discount || 0 %></p>
+                <p>Quantity: <%= p.quantity %></p>
+                <p>Total: ₹<%= (prod.price - (prod.discount || 0)) * p.quantity %></p>
+                <% if (owner) { %>
+                  <p class="text-xs mt-1">Owner ID: <%= owner._id %></p>
+                <% } %>
+              </div>
+
+            </div>
+          <% }) %>
+        </div>
+
+        <!-- Address & Payment Section -->
+        <div class="w-1/3 border-l pl-4">
+          <h3 class="font-semibold text-lg mb-2">Delivery Address</h3>
+          <p>
+            <%= order.address?.line1 || "Line1 missing" %>,<br />
+            <%= order.address?.city || "City missing" %>,
+            <%= order.address?.state || "State missing" %> -
+            <%= order.address?.zip || "ZIP missing" %>
+          </p>
+
+          <h4 class="mt-4 font-semibold">Payment Status:</h4>
+          <p class="text-green-600 font-medium capitalize"><%= order.paymentStatus %></p>
+
+          <h4 class="mt-4 font-semibold">Total:</h4>
+          <p class="font-bold text-xl">₹<%= order.total %></p>
+        </div>
+
+      </div>
+    <% }) %>
+  <% } %>
+</div>
+
+<%- include("partials/footer") %>

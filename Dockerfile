@@ -1,19 +1,18 @@
-# Use Node.js 20 official image
+# Use Node.js 20 (LTS)
 FROM node:20
 
-# Set working directory
+# Create app directory
 WORKDIR /app
 
-# Copy package files and install deps
+# Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install --omit=dev
 
-# Copy the rest of the app
+# Copy the full app
 COPY . .
 
-# Set environment variables
-ENV PORT=8080
-
-# Expose port and start the app
+# Expose the port
 EXPOSE 8080
-CMD ["npm", "start"]
+
+# Start the app
+CMD [ "npm", "start" ]

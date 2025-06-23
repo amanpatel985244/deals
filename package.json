@@ -10,6 +10,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "config": "^4.0.0",
@@ -23,9 +26,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.15.1",
     "multer": "^2.0.1",
-    "path": "^0.12.7",
     "push": "^0.1.1",
-    "router": "^2.2.0",
-    "scatch": "file:"
+    "rimraf": "^6.0.1",
+    "uuid": "^11.1.0"
   }
 }

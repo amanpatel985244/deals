@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 const ownerModel = require("../models/owner-model");
 const productModel = require("../models/product-model");
 const orderModel = require("../models/order-model");
-const userModel = require("../models/user-model");
 
 // Middleware
 router.use(express.urlencoded({ extended: true }));
@@ -94,10 +93,10 @@ router.get("/products/my", isOwnerLoggedIn, async (req, res) => {
   }
 });
 
-// ✅ View Orders Received by Owner
 // router.get("/received", isOwnerLoggedIn, async (req, res) => {
 //   try {
-//     const ownerId = req.ownerId;
+//     const ownerId = req.ownerId.toString();
+   
 
 //     const allOrders = await orderModel.find()
 //       .populate("products.product")
@@ -105,15 +104,21 @@ router.get("/products/my", isOwnerLoggedIn, async (req, res) => {
 //       .populate("user")
 //       .exec();
 
-//     const receivedOrders = allOrders
-//       .map(order => {
-//         const ownerProducts = order.products.filter(p =>
-//           p.owner?.toString() === ownerId
-//         );
 
-//         if (ownerProducts.length === 0) return null;
 
-//         return {
+//     const receivedOrders = [];
+
+//     for (const order of allOrders) {
+
+
+//       const ownerProducts = order.products.filter(p => {
+//         const pid = p.owner?._id?.toString();
+        
+//         return pid === ownerId;
+//       });
+
+//       if (ownerProducts.length > 0) {
+//         receivedOrders.push({
 //           _id: order._id,
 //           buyer: order.user,
 //           address: order.address,
@@ -121,9 +126,10 @@ router.get("/products/my", isOwnerLoggedIn, async (req, res) => {
 //           paymentMode: order.paymentMode,
 //           products: ownerProducts,
 //           createdAt: order.createdAt
-//         };
-//       })
-//       .filter(Boolean); // remove nulls
+//         });
+//       }
+//     }
+
 
 //     res.render("owner-received-orders", { receivedOrders });
 //   } catch (err) {
@@ -131,7 +137,6 @@ router.get("/products/my", isOwnerLoggedIn, async (req, res) => {
 //     res.status(500).send("Something went wrong.");
 //   }
 // });
-
 
 
 module.exports = router;

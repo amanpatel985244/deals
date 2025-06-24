@@ -53,7 +53,7 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 
 app.use(session({
-  secret: process.env.EXPRESS_SESSION_SECRET || "defaultSecret",
+  secret: process.env.EXPRESS_SESSION_SECRET || "hahahahah",
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({

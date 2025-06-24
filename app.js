@@ -51,6 +51,18 @@ app.set("view engine","ejs");
 
 
 
+    const session = require("express-session");
+const MongoStore = require("connect-mongo");
+
+app.use(session({
+  secret: process.env.EXPRESS_SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
+}));
+
+
+
 //server connection
 const PORT = process.env.PORT || 8080;
 

@@ -13,7 +13,8 @@ function isUserLoggedIn(req, res, next) {
   if (!token) return res.redirect("/login");
 
   try {
-    const decoded = jwt.verify(token, "hahahahah");
+const decoded = jwt.verify(token, process.env.JWT_KEY);
+
     req.userId = decoded.id;
     next();
   } catch (err) {
@@ -25,7 +26,8 @@ function isOwnerLoggedIn(req, res, next) {
   if (!token) return res.redirect("/owner/login");
 
   try {
-    const decoded = jwt.verify(token, "secret");
+ const decoded = jwt.verify(token, process.env.secret);
+
     req.ownerId = decoded.id;
     next();
   } catch (err) {

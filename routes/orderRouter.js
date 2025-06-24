@@ -26,7 +26,7 @@ function isOwnerLoggedIn(req, res, next) {
   if (!token) return res.redirect("/owner/login");
 
   try {
- const decoded = jwt.verify(token, process.env.secret);
+ const decoded = jwt.verify(token, process.env.EXPRESS_SESSION_SECRET);
 
     req.ownerId = decoded.id;
     next();

@@ -49,17 +49,22 @@ app.set("view engine","ejs");
     app.use("/order", orderRouter);
 
 
-
-
-    const session = require("express-session");
+const session = require("express-session");
 const MongoStore = require("connect-mongo");
 
 app.use(session({
-  secret: process.env.EXPRESS_SESSION_SECRET,
+  secret: process.env.EXPRESS_SESSION_SECRET || "defaultSecret",
   resave: false,
   saveUninitialized: false,
-  store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI,
+    collectionName: "sessions",
+  }),
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24, // 1 day
+  }
 }));
+
 
 
 

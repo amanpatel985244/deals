@@ -44,7 +44,6 @@ app.set("view engine","ejs");
     app.use('/owner', ownersRouter);
     app.use("/users",usersRouter);
     app.use("/products",productsRouter);
-    // app.use("/orders", ownersRouter);
     app.use("/orders", orderRouter);
     app.use("/order", orderRouter);
 
